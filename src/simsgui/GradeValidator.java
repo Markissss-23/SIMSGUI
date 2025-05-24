@@ -8,6 +8,15 @@ package simsgui;
  *
  * @author marku
  */
-public class GradeValidator {
+public class GradeValidator extends Validator<String>{
+    
+    @Override
+    public boolean validate(String grade) {
+        // Taken from assignment 1
+        return switch (grade) {
+            case "A+", "A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D" -> true;
+            default -> false;
+        };
+    }
     
 }

@@ -9,4 +9,20 @@ package simsgui;
  * @author marku
  */
 public class IdValidator extends Validator<Integer> {
+
+    private final StudentDAO studentDAO;
+
+    public IdValidator(StudentDAO studentDAO) {
+        this.studentDAO = studentDAO;
+    }
+
+    @Override
+    public boolean validate(Integer id) {
+        if (id < 10000000 && id > 99999999) {
+            return true;
+        }
+
+        return !studentDAO.IdExists(id);
+
+    }
 }

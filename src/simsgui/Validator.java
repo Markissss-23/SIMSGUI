@@ -12,3 +12,5 @@ package simsgui;
 public abstract class Validator<T> {
     public abstract boolean validate(T input);
 }
+
+

@@ -8,6 +8,24 @@ package simsgui;
  *
  * @author marku
  */
-public class NameValidator {
-    
+public class NameValidator extends Validator<String>{
+    @Override
+    public boolean validate(String name) {
+        if (name == null) {
+            System.err.println("Name cannot be null.");
+            return false;
+        }
+        if (name.isEmpty()) {
+            System.err.println("Name cannot be empty.");
+            return false;
+        }
+        
+        // Genned with AI 
+        if (!name.matches("^[a-zA-z]+$")) {
+            System.err.println("Name can only contain letters and spaces");
+            return false;
+        }
+        
+        return true;
+    }
 }
