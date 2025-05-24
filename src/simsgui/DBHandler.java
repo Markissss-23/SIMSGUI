@@ -85,22 +85,5 @@ public final class DBHandler {
             System.err.println(e.getMessage());
         }
     }
-    // MOVE TO StudentDAO
-    public List<StudentInfo> queryStudents() {
-        List<StudentInfo> students = new ArrayList<>();
-        String sql = "SELECT * FROM Students";
-        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
-            while (rs.next()) {
-                students.add(new StudentInfo(
-                        rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("degree"),
-                        rs.getString("grade")
-                ));
-            }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage());
-        }
-        return students;
-    }
+    
 }
