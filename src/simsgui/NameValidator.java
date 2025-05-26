@@ -21,7 +21,7 @@ public class NameValidator extends Validator<String>{
         }
         
         // Genned with AI 
-        if (!name.matches("^[a-zA-z]+$")) {
+        if (!name.matches("^[a-zA-Z ]+$")) {
             System.err.println("Name can only contain letters and spaces");
             return false;
         }

@@ -10,19 +10,18 @@ package simsgui;
  */
 public class IdValidator extends Validator<Integer> {
 
-    private final StudentDAO studentDAO;
+    private final StudentDAO dao;
 
-    public IdValidator(StudentDAO studentDAO) {
-        this.studentDAO = studentDAO;
+    public IdValidator(StudentDAO dao) {
+        this.dao = dao;
     }
 
     @Override
     public boolean validate(Integer id) {
-        if (id < 10000000 && id > 99999999) {
-            return true;
+        if (id == null) return false;
+        if (id < 10000000 || id > 99999999) { // Must be exactly 8 digits
+            return false;
         }
-
-        return !studentDAO.IdExists(id);
-
+        return !dao.IdExists(id); // Check uniqueness
     }
 }

@@ -14,8 +14,8 @@ public class StudentValidator extends Validator<StudentInfo>{
     private final NameValidator nameValidator;
     private final DegreeValidator degreeValidator;
     
-    public StudentValidator(StudentDAO studentDAO) {
-        this.idValidator = new IdValidator(studentDAO);
+    public StudentValidator(StudentDAO dao) {
+        this.idValidator = new IdValidator(dao);
         this.gradeValidator = new GradeValidator();
         this.nameValidator = new NameValidator();
         this.degreeValidator = new DegreeValidator();

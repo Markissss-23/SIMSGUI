@@ -21,7 +21,7 @@ public class StudentDAO {
     }
 
     // Partially genned with AI particularly the ResultSet
-    public List<StudentInfo> qetStudents() {
+    public List<StudentInfo> getStudents() {
         List<StudentInfo> students = new ArrayList<>();
         String sql = "SELECT * FROM Students";
         try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
@@ -124,4 +124,14 @@ public class StudentDAO {
         }
         return exists; // WILL NEVER BE CALLED
     }    
+    
+    
+    // Mostly for testing
+    public void deleteAllStudents() throws SQLException {
+        String sql = "DELETE FROM Students";
+        try (Statement stmt = conn.createStatement()){
+            stmt.executeUpdate(sql);
+        }
+        
+    }
 }

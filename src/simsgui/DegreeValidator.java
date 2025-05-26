@@ -21,7 +21,7 @@ public class DegreeValidator extends Validator<String>{
         }
         
         // Genned with AI 
-        if (!degree.matches("^[a-zA-z]+$")) {
+        if (!degree.matches("^[a-zA-Z ]+$")) {
             System.err.println("Name can only contain letters and spaces");
             return false;
         }

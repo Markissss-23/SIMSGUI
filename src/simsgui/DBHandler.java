@@ -12,16 +12,11 @@ import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public final class DBHandler {
 
-    private static final String USER_NAME = "simsguiDB"; //your DB username
-    private static final String PASSWORD = "simsguiDB"; //your DB password
+    //private static final String USER_NAME = "simsguiDB"; //your DB username
+    //private static final String PASSWORD = "simsguiDB"; //your DB password
     private static final String URL = "jdbc:derby:simsguiDB;create=true";  //url of the DB host
     private static DBHandler instance;
     private Connection conn;
@@ -30,11 +25,15 @@ public final class DBHandler {
         establishConnection();
         createTablesIfNonExistent();
     }
-    
-    public static void main(String[] args) {
-        DBHandler dbManager = new DBHandler();
-        System.out.println(dbManager.getConnection());
+
+    static {
+        try {
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("Derby driver not found!");
+        }
     }
+    
 
     public static DBHandler getInstance() { // Singleton
         if (instance == null) {
@@ -44,21 +43,20 @@ public final class DBHandler {
     }
 
     public Connection getConnection() {
+        if (conn == null) {
+            establishConnection();
+        }
         return this.conn;
     }
 
     public void establishConnection() {
         if (conn == null) {
             try {
-                Class.forName("org.apache.derby.jdbc.ClientDriver");
-
-                conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+                conn = DriverManager.getConnection(URL);
                 System.out.println("Connected to " + URL + " successfully...");
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(DBHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            } 
         }
     }
 
@@ -66,6 +64,7 @@ public final class DBHandler {
         if (conn != null) {
             try {
                 conn.close();
+                conn = null;
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
             }
@@ -82,8 +81,10 @@ public final class DBHandler {
             stmt.execute(sql);
             System.out.println("Students Table created successfully");
         } catch (SQLException e) {
-            System.err.println(e.getMessage());
+            if (!e.getMessage().contains("already exists")) {
+                System.err.println("Table creation failed: " + e.getMessage());
+            }
         }
     }
-    
+
 }
