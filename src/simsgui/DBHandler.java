@@ -73,13 +73,21 @@ public final class DBHandler {
 
     public void createTablesIfNonExistent() {
         try (Statement stmt = conn.createStatement()) {
-            String sql = "CREATE TABLE Students ("
+            String studentTable = "CREATE TABLE Students ("
                     + "id INT PRIMARY KEY,"
                     + "name VARCHAR(25),"
                     + "degree VARCHAR(25),"
                     + "grade VARCHAR(2))";
-            stmt.execute(sql);
+            stmt.executeUpdate(studentTable);
             System.out.println("Students Table created successfully");
+            
+            
+            String userTable = "CREATE TABLE Users ("
+                    + "username VARCHAR(25) PRIMARY KEY,"
+                    + "password VARCHAR(25),"
+                    + "level VARCHAR(10))";
+            stmt.executeUpdate(userTable);
+            System.out.println("Users Table created sucessfully");
         } catch (SQLException e) {
             if (!e.getMessage().contains("already exists")) {
                 System.err.println("Table creation failed: " + e.getMessage());
