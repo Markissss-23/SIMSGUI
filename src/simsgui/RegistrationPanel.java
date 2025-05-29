@@ -4,21 +4,15 @@
  */
 package simsgui;
 
+
 /**
  *
  * @author marku
  */
+public class RegistrationPanel {
 
-public class MockStudentDAO extends StudentDAO {
-    private boolean exists = false;
-    
-    public void setExists(boolean exists) {
-        this.exists = exists;
-    }
-    
-    
-    public boolean IDExists(int id) {
-        return exists;
+    public RegistrationPanel() {
+        
     }
     
 }
