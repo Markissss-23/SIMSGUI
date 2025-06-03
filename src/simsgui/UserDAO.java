@@ -89,4 +89,15 @@ public class UserDAO {
         }
         return users;
     }
+    
+    public void deleteUser(String username) {
+        String sql = "DELETE FROM Users WHERE username = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, username);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
 }

@@ -4,6 +4,8 @@
  */
 package simsgui;
 
+import javax.swing.*;
+
 /**
  *
  * @author marku
@@ -11,11 +13,14 @@ package simsgui;
 public class MainController {
 
     MainFrame mainFrame;
+    UserDAO userDAO = new UserDAO();
+    DBHandler dbHandler = DBHandler.getInstance();
     
-    public MainController() {
+    public MainController(JFrame parent) {
         mainFrame = new MainFrame();
         mainFrame.setSize(1000,700);
-        mainFrame.switchPanel(new LoginPanel());
+        mainFrame.setVisible(true);
+        showLogin();
     }
     
     public void showLogin() {
@@ -39,7 +44,7 @@ public class MainController {
     }
     
     public void exitApp() {
-        DBHandler.getInstance().closeConnection();
+        dbHandler.closeConnection();
         System.exit(0);
     }
 }

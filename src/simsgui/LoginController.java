@@ -12,30 +12,20 @@ import javax.swing.*;
  */
 public class LoginController {
 
-    private final UserDAO userDAO = new UserDAO();
-    private MainController mainControl;
+    UserValidator userValidator = new UserValidator(new UserDAO());
+    private MainFrame mainFrame;
 
-    public LoginController(MainController mainControl) {
-        this.mainControl = mainControl;
-    }
-
-    public UserInfo authentication(String username, String password) {
-        UserInfo user = userDAO.getUserByUsername(username);
-
-        if (user != null && user.getPassword().equals(password)) {
-            return user;
-        } 
-        return null;
+    public LoginController(MainFrame mainFrame) {
+        this.mainFrame = mainFrame;
+        this.userValidator = new UserValidator(new UserDAO());
     }
 
     public void handleLogin(String username, String password) {
-        UserInfo user = authentication(username, password);
-        if (user!= null) {
-            mainControl.showMainMenu(user);
+        if (userValidator.validateLogin(username, password)) {
+            UserInfo user = new UserDAO().getUserByUsername(username);
+            mainFrame.getMainController().showMainMenu(user);
         } else {
-            // send error message
+            new MessageDialogue(mainFrame.getParentFrame(), "Invalid Username or password.", "Login Failed.", 0);
         }
     }
-
-
 }

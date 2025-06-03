@@ -4,6 +4,8 @@
  */
 package simsgui;
 
+import javax.swing.*;
+
 /**
  *
  * @author marku
@@ -14,7 +16,14 @@ public class SIMSGUI {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        JFrame parentFrame = new JFrame();
+
+        new MessageDialogue(parentFrame, "Testint Testing Testing", "Error", 0);
+
+        new MessageDialogue(parentFrame, "Testing Testing Testing", "Success", 1);
+
+        new MessageDialogue(parentFrame, "Testing Testing Testing", "Warrior", 2);
+
     }
-    
+
 }
