@@ -7,6 +7,8 @@ package simsgui;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -33,7 +35,6 @@ public class UserDAO {
         }
     }
 
-    // AI Modified 
     public UserInfo getUserByUsername(String username) {
         String sql = "SELECT * FROM Users WHERE username = ?";
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -99,5 +100,25 @@ public class UserDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+    }
+    
+    public void updateUser(String username, String newPassword, String newLevel) {
+        String sql = "UPDATE Users SET password = ?, role = ? WHERE username = ?";
+        
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, newPassword);
+            pstmt.setString(2, newLevel);
+            pstmt.setString(3, username);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+    }
+    
+    public boolean UsernameUniqueCheck(String username, String oldUsername) {
+        if (username.equals(oldUsername)) {
+            return true;
+        }
+        return !userExists(username);
     }
 }

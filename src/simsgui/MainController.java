@@ -12,12 +12,18 @@ import javax.swing.*;
  */
 public class MainController {
 
-    MainFrame mainFrame;
-    UserDAO userDAO = new UserDAO();
-    DBHandler dbHandler = DBHandler.getInstance();
+    private MainFrame mainFrame;
+    private UserDAO userDAO;
+    private StudentDAO studentDAO;
+    private UserInfo currentUser;
     
     public MainController(JFrame parent) {
-        mainFrame = new MainFrame();
+        this.mainFrame = new MainFrame();
+        this.userDAO = new UserDAO();
+        this.studentDAO = new StudentDAO();
+        this.currentUser = null;
+        
+        mainFrame.setParentFrame(parent);
         mainFrame.setSize(1000,700);
         mainFrame.setVisible(true);
         showLogin();
@@ -32,6 +38,7 @@ public class MainController {
     }
     
     public void showMainMenu(UserInfo user) {
+        this.currentUser = user;
         mainFrame.switchPanel(new MainMenuPanel(user));
     }
     
@@ -40,11 +47,31 @@ public class MainController {
     }
     
     public void showAdminPanel() {
-        mainFrame.switchPanel(new AdminPanel());
+        if (currentUser.getLevel().equals("admin")) {
+            mainFrame.switchPanel(new AdminPanel(this));
+        } else {
+            new MessageDialogue(mainFrame.getParentFrame(), "Access Deniend", "Error", 0);
+        }
     }
     
     public void exitApp() {
-        dbHandler.closeConnection();
+        DBHandler.getInstance().closeConnection();
         System.exit(0);
+    }
+    
+    public UserInfo getCurrentUser() {
+        return currentUser;
+    }
+    
+    public UserDAO getUserDAO() {
+        return userDAO;
+    }
+    
+    public StudentDAO getStudentDAO() {
+        return studentDAO;
+    }
+    
+    public MainFrame getMainFrame() {
+        return mainFrame;
     }
 }

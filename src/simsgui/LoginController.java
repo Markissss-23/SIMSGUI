@@ -4,28 +4,27 @@
  */
 package simsgui;
 
-import javax.swing.*;
-
 /**
  *
  * @author marku
  */
 public class LoginController {
 
-    UserValidator userValidator = new UserValidator(new UserDAO());
-    private MainFrame mainFrame;
+    private MainController mainController;
+    private UserValidator userValidator;
 
-    public LoginController(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
-        this.userValidator = new UserValidator(new UserDAO());
+    public LoginController(MainController mainController) {
+        this.mainController = mainController;
+        this.userValidator = new UserValidator(mainController.getUserDAO());
     }
 
     public void handleLogin(String username, String password) {
+
         if (userValidator.validateLogin(username, password)) {
-            UserInfo user = new UserDAO().getUserByUsername(username);
-            mainFrame.getMainController().showMainMenu(user);
+            UserInfo user = mainController.getUserDAO().getUserByUsername(username);
+            mainController.showMainMenu(user);
         } else {
-            new MessageDialogue(mainFrame.getParentFrame(), "Invalid Username or password.", "Login Failed.", 0);
+            new MessageDialogue(mainController.getMainFrame().getParentFrame(), "Invalid username or password.", "Login Failed.", 0);
         }
     }
 }

@@ -36,7 +36,24 @@ public class UserValidator {
             user.getPassword().equals(password) 
         );
     }
-
+    
+    public boolean validateUpdate(String username, String newPassword, String confirmPassword, String newLevel) {
+        if (userDAO.getUserByUsername(username) == null) {
+            return false; 
+        }
+        
+        if (!newLevel.equals("user") && !newLevel.equals("admin")) {
+            return false;
+        }
+        
+        if (newPassword != null && !newPassword.isEmpty()){
+            return isValidPassword(newPassword) && newPassword.equals(confirmPassword);
+        }
+        
+        return true; 
+    }
+    
+    
     // Check username format (5-25 characters, letters/numbers)
     private boolean isValidUsername(String username) {
         return username != null && 
@@ -60,7 +77,7 @@ public class UserValidator {
             errors.append("Username must be 5-25 characters (letters, numbers, underscores).\n");
         }
         if (!isValidPassword(password)) {
-            errors.append("Password must be at least 8 characters with letters and numbers.\n");
+            errors.append("Password must be atleast 8 characters with letters and numbers.\n");
         }
         if (!password.equals(confirmPassword)) {
             errors.append("Passwords do not match.\n");
@@ -72,5 +89,22 @@ public class UserValidator {
         return errors.toString().trim();
     }
     
-    
+    public String getUpdateErrors(String username, String newPassword, String confirmPassword) {
+        StringBuilder errors = new StringBuilder();
+        
+        if (userDAO.getUserByUsername(username) == null) {
+            errors.append("User does not exist.\n");
+        }
+        
+        if (!newPassword.isEmpty()) {
+            if (!isValidPassword(newPassword)) {
+                errors.append("Password must be atleast 8 characters with letters and numbers.\n");
+            }
+            if (!newPassword.equals(confirmPassword)) {
+                errors.append("Passwords do not match.\n");
+            }
+        }
+        
+        return errors.toString().trim();
+    }
 }

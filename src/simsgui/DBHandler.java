@@ -88,6 +88,12 @@ public final class DBHandler {
                     + "level VARCHAR(10))";
             stmt.executeUpdate(userTable);
             System.out.println("Users Table created sucessfully");
+            
+            // Creates default admin if none exists 
+            UserDAO userDAO = new UserDAO();
+            if (!userDAO.userExists("admin")) {
+                userDAO.addUser(new UserInfo ("admin", "admin123", "admin"));
+            }
         } catch (SQLException e) {
             if (!e.getMessage().contains("already exists")) {
                 System.err.println("Table creation failed: " + e.getMessage());

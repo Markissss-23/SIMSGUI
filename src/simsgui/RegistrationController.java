@@ -9,22 +9,24 @@ package simsgui;
  * @author marku
  */
 public class RegistrationController {
-    MainFrame mainFrame; 
-    UserValidator userValidator = new UserValidator(new UserDAO());
+    private MainController mainController;
+    private UserValidator userValidator;
     
-    public RegistrationController(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
+    public RegistrationController(MainController mainController) {
+        this.mainController = mainController;
+        this.userValidator = new UserValidator(mainController.getUserDAO());
     }
-    
     
     public void handleRegistration(String username, String password, String confirmPassword) {
         if (userValidator.validateRegistration(username, password, confirmPassword)) {
             UserInfo newUser = new UserInfo(username, password, "user");
-            MessageDialogue messageDialogue = new MessageDialogue(mainFrame.getParentFrame(), "Registration successful", "Success", 1);
-            mainFrame.getMainController().showLogin();
+            
+            new MessageDialogue(mainController.getMainFrame().getParentFrame(), "Registration successful", "Success", 1);
+            
+            mainController.showLogin();
         } else {
             new MessageDialogue(
-                    mainFrame.getParentFrame(), 
+                    mainController.getMainFrame().getParentFrame(), 
                     userValidator.getRegistrationErrors(username, password, confirmPassword), 
                     "Registration failed", 
                     0);

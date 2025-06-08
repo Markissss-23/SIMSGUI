@@ -9,31 +9,53 @@ package simsgui;
  * @author marku
  */
 public class AdminController {
-    MainFrame mainFrame;
-    UserDAO userDAO = new UserDAO();
-    StudentDAO studentDAO = new StudentDAO();
-    IdValidator idValidator = new IdValidator(studentDAO);
-    
-    public AdminController(MainFrame mainFrame) {
-        this.mainFrame = mainFrame;
+
+    private MainController mainController;
+    private UserDAO userDAO;
+    private UserValidator userValidator;
+
+    public AdminController(MainController mainController) {
+        this.mainController = mainController;
+        this.userDAO = mainController.getUserDAO();
+        this.userValidator = new UserValidator(userDAO);
     }
-    
-    
+
     public void deleteUser(String username) {
         if (!username.equals("admin")) {
             userDAO.deleteUser(username);
-            new MessageDialogue(mainFrame.getParentFrame(), "User Deleted", "Success", 1);
+            new MessageDialogue(mainController.getMainFrame().getParentFrame(), "User Deleted", "Success", 1);
         } else {
-            new MessageDialogue(mainFrame.getParentFrame(), "Admin cannot be deleted", "Error", 0);
+            new MessageDialogue(mainController.getMainFrame().getParentFrame(), "Admin cannot be deleted", "Error", 0);
         }
     }
-    
-    public void deleteStudent(int id) {
-        if (idValidator.validate(id)) {
-            studentDAO.deleteStudent(id);
-            new MessageDialogue(mainFrame.getParentFrame(), "Student deleted", "Success", 1);
-        } else {
-            new MessageDialogue(mainFrame.getParentFrame(), "Invalid or non-existent ID", "Failed", 0);
+
+    public void updateUser(String username, String newPassword, String confirmPassword, String newLevel) {
+
+        if (UpdateCheck(username)) {
+            new MessageDialogue(mainController.getMainFrame().getParentFrame(), "User cannot be updated", "Validation Failed", 0);
+            return;
         }
+
+        String errors = userValidator.getUpdateErrors(username, newPassword, confirmPassword);
+        if (!errors.isEmpty()) {
+            new MessageDialogue(mainController.getMainFrame().getParentFrame(), errors, "Validation Failed", 0);
+            return;
+        }
+
+        if (!newPassword.isEmpty()) {
+            userDAO.updateUser(username, newPassword, newLevel);
+        } else {
+            userDAO.updateUser(username, null, newLevel);
+        }
+
+        new MessageDialogue(mainController.getMainFrame().getParentFrame(), "User Updated", "Success", 1);
+    }
+
+    private boolean UpdateCheck(String username) {
+        if (username.equals("admin") || username.equals(username)) {
+            new MessageDialogue(mainController.getMainFrame().getParentFrame(), "Cannot update account", "Error", 0);
+            return false;
+        }
+        return true;
     }
 }
