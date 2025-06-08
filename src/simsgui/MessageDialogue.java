@@ -21,12 +21,12 @@ public class MessageDialogue extends JDialog {
     }
     
     private void createMessage(String message, int messageType) {
-        JLabel messageLabel = new JLabel(message);
+        // <HTML> wraps text
+        JLabel messageLabel = new JLabel("<html>" + message + "</html>");
         
         messageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        messageLabel.setBorder(BorderFactory.createEmptyBorder(10,20,10,20));
         add(messageLabel, BorderLayout.CENTER);
-        
-        
         
         JButton button = new JButton("OK");
         button.addActionListener(e -> dispose());
@@ -41,7 +41,8 @@ public class MessageDialogue extends JDialog {
                 messageLabel.setForeground(Color.orange);
         }
         
-        setSize(300, 200);
+        pack();
+        setSize(500, 200);
         setResizable(false);
         setVisible(true);
     }

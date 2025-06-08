@@ -17,11 +17,22 @@ public class MainController {
     private StudentDAO studentDAO;
     private UserInfo currentUser;
     
+    private LoginController loginController;
+    private RegistrationController registrationController;
+    private StudentManagerController studentManagerController;
+    private AdminController adminController;
+    
     public MainController(JFrame parent) {
         this.mainFrame = new MainFrame();
         this.userDAO = new UserDAO();
         this.studentDAO = new StudentDAO();
         this.currentUser = null;
+        
+        this.loginController = new LoginController(this);
+        this.registrationController = new RegistrationController(this);
+        this.studentManagerController = new StudentManagerController(this);
+        this.adminController = new AdminController(this);
+        
         
         mainFrame.setParentFrame(parent);
         mainFrame.setSize(1000,700);
@@ -30,11 +41,11 @@ public class MainController {
     }
     
     public void showLogin() {
-        mainFrame.switchPanel(new LoginPanel());
+        mainFrame.switchPanel(new LoginPanel(this));
     }
     
     public void showRegistration() {
-        mainFrame.switchPanel(new RegistrationPanel());
+        mainFrame.switchPanel(new RegistrationPanel(this));
     }
     
     public void showMainMenu(UserInfo user) {
@@ -73,5 +84,21 @@ public class MainController {
     
     public MainFrame getMainFrame() {
         return mainFrame;
+    }
+
+    public LoginController getLoginController() {
+        return loginController;
+    }
+
+    public RegistrationController getRegistrationController() {
+        return registrationController;
+    }
+
+    public StudentManagerController getStudentManagerController() {
+        return studentManagerController;
+    }
+
+    public AdminController getAdminController() {
+        return adminController;
     }
 }

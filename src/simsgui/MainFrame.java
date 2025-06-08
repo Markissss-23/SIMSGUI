@@ -13,12 +13,11 @@ import javax.swing.*;
 public class MainFrame extends JFrame {
     JPanel currentPanel;
     JFrame parentFrame;
-    MainController mainControl;
 
     public MainFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1000,700);
         setLayout(new BorderLayout());
-        mainControl = new MainController(this);
     }
     
     public void switchPanel(JPanel panel) {
@@ -27,10 +26,6 @@ public class MainFrame extends JFrame {
         add(currentPanel, BorderLayout.CENTER);
         revalidate();
         repaint();
-    }
-    
-    public MainController getMainController() {
-        return mainControl;
     }
     
     public JFrame getParentFrame() {
