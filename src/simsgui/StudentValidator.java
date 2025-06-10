@@ -29,4 +29,23 @@ public class StudentValidator extends Validator<StudentInfo>{
                 & gradeValidator.validate(student.getGrade());
     }
     
+    public String getValidationErrors(StudentInfo student) {
+        StringBuilder errors = new StringBuilder();
+
+        if (!idValidator.validate(student.getId())) {
+            errors.append("ID must be an 8 digit integer.\n");
+        }
+        if (!nameValidator.validate(student.getName())) {
+            errors.append("Name can only contain letters and spaces.\n");
+        }
+        if (!degreeValidator.validate(student.getDegree())) {
+            errors.append("Degree can only contain letters and spaces.\n");
+        }
+        if (!gradeValidator.validate(student.getGrade())) {
+            errors.append("Grade must be a valid letter grade.\n");
+        }
+
+        return errors.toString().trim();
+    }
+    
 }

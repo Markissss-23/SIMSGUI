@@ -26,16 +26,16 @@ public final class DBHandler {
         createTablesIfNonExistent();
     }
 
-    static {
+    /* static {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
         } catch (ClassNotFoundException e) {
             System.err.println("Derby driver not found!");
         }
-    }
+    }*/
     
 
-    public static DBHandler getInstance() { // Singleton
+    public static DBHandler getInstance() {
         if (instance == null) {
             instance = new DBHandler();
         }
@@ -88,6 +88,7 @@ public final class DBHandler {
                     + "level VARCHAR(10))";
             stmt.executeUpdate(userTable);
             System.out.println("Users Table created sucessfully");
+                        
         } catch (SQLException e) {
             if (!e.getMessage().contains("already exists")) {
                 System.err.println("Table creation failed: " + e.getMessage());

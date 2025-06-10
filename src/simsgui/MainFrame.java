@@ -4,10 +4,36 @@
  */
 package simsgui;
 
+import java.awt.*;
+import javax.swing.*;
 /**
  *
  * @author marku
  */
-public class MainFrame {
+public class MainFrame extends JFrame {
+    JPanel currentPanel;
+    JFrame parentFrame;
+
+    public MainFrame() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1000,700);
+        setLayout(new BorderLayout());
+    }
+    
+    public void switchPanel(JPanel panel) {
+        currentPanel = panel;
+        getContentPane().removeAll();
+        add(currentPanel, BorderLayout.CENTER);
+        revalidate();
+        repaint();
+    }
+    
+    public JFrame getParentFrame() {
+        return parentFrame;
+    }
+    
+    public void setParentFrame(JFrame parentFrame) {
+        this.parentFrame = parentFrame;
+    }
     
 }
