@@ -22,6 +22,18 @@ public class UserDAO {
         this.conn = DBHandler.getInstance().getConnection();
     }
 
+    public void createDefaultAdmin() {
+        String defaultUsername = "admin";
+        String defaultPassword = "admin123";
+        String defaultLevel = "admin";
+
+        if (!userExists(defaultUsername)) {
+            UserInfo admin = new UserInfo(defaultUsername, defaultPassword, defaultLevel);
+            addUser(admin);
+            System.out.println("Default admin created: " + defaultUsername);
+        }
+    }
+
     public void addUser(UserInfo user) {
         String sql = "INSERT INTO Users (username, password, level) VALUES (?, ?, ?)";
 
@@ -43,7 +55,7 @@ public class UserDAO {
             if (rs.next()) {
                 return new UserInfo(
                         rs.getString("username"),
-                        rs.getString("password"), 
+                        rs.getString("password"),
                         rs.getString("level")
                 );
             }
@@ -90,7 +102,7 @@ public class UserDAO {
         }
         return users;
     }
-    
+
     public void deleteUser(String username) {
         String sql = "DELETE FROM Users WHERE username = ?";
 
@@ -101,10 +113,10 @@ public class UserDAO {
             System.err.println(e.getMessage());
         }
     }
-    
+
     public void updateUser(String username, String newPassword, String newLevel) {
-        String sql = "UPDATE Users SET password = ?, role = ? WHERE username = ?";
-        
+        String sql = "UPDATE Users SET password = ?, level = ? WHERE username = ?";
+
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, newPassword);
             pstmt.setString(2, newLevel);
@@ -114,7 +126,7 @@ public class UserDAO {
             System.err.println(e.getMessage());
         }
     }
-    
+
     public boolean UsernameUniqueCheck(String username, String oldUsername) {
         if (username.equals(oldUsername)) {
             return true;

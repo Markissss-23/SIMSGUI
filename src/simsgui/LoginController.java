@@ -22,7 +22,7 @@ public class LoginController {
 
         if (userValidator.validateLogin(username, password)) {
             UserInfo user = mainController.getUserDAO().getUserByUsername(username);
-            mainController.showMainMenu(user);
+            mainController.showMainMenu(user, mainController);
         } else {
             new MessageDialogue(mainController.getMainFrame().getParentFrame(), "Invalid username or password.", "Login Failed.", 0);
         }

@@ -21,6 +21,8 @@ public class RegistrationController {
         if (userValidator.validateRegistration(username, password, confirmPassword)) {
             UserInfo newUser = new UserInfo(username, password, "user");
             
+            mainController.getUserDAO().addUser(newUser);
+           
             new MessageDialogue(mainController.getMainFrame().getParentFrame(), "Registration successful", "Success", 1);
             
             mainController.showLogin();

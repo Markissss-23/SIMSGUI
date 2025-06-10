@@ -23,30 +23,48 @@ public class RegistrationPanel extends JPanel {
     }
 
     private void initUI() {
+        // Title message
+        JLabel title = new JLabel("SIMS Registration");
+        title.setFont(new Font("Arial", Font.BOLD, 30));
+        title.setHorizontalAlignment(SwingConstants.CENTER);
+        title.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10));
+        add(title, BorderLayout.NORTH);
+
+        // Form Panel Layout
         JPanel formPanel = new JPanel();
-        formPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        formPanel.setLayout(new GridLayout(3, 2, 10, 15));
         formPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 
-        formPanel.add(new JLabel("Username:"));
+        // Username
+        JLabel usernameText = new JLabel("Username:");
         JTextField usernameField = new JTextField(20);
-        usernameField.setPreferredSize(new Dimension(200, 20));
+        formPanel.add(usernameText);
         formPanel.add(usernameField);
 
-        formPanel.add(new JLabel("Password:"));
+        // Password
+        JLabel passwordText = new JLabel("Password:");
         JPasswordField passwordField = new JPasswordField(20);
-        passwordField.setPreferredSize(new Dimension(200, 20));
+        formPanel.add(passwordText);
         formPanel.add(passwordField);
 
-        formPanel.add(new JLabel("Confirm Password:"));
+        // Confirm Password
+        JLabel confirmPasswordText = new JLabel("Confirm Password:");
         JPasswordField confirmPasswordField = new JPasswordField(20);
-        confirmPasswordField.setPreferredSize(new Dimension(200, 20));
+        formPanel.add(confirmPasswordText);
         formPanel.add(confirmPasswordField);
+
+        // Container to center the panel
+        JPanel formContainer = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        formContainer.add(formPanel);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new FlowLayout());
 
         JButton registerButton = new JButton("Register");
         registerButton.addActionListener((ActionEvent e) -> {
+            System.out.println("Entered password: " + new String(passwordField.getPassword()));
+            System.out.println("Entered username: " + usernameField.getText());
+
             mainController.getRegistrationController().handleRegistration(
                     usernameField.getText(),
                     new String(passwordField.getPassword()),
@@ -58,7 +76,7 @@ public class RegistrationPanel extends JPanel {
         backButton.addActionListener((e -> mainController.showLogin()));
         buttonPanel.add(backButton);
 
-        add(formPanel, BorderLayout.CENTER);
+        add(formContainer, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
