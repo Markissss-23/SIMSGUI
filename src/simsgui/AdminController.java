@@ -19,7 +19,7 @@ the generated StudentValidator class, It will be a bit different.
 The overall structure is overall identical, just with slightly 
 different methodologies
 
-*/
+ */
 public class AdminController {
 
     private MainController mainController;
@@ -37,7 +37,7 @@ public class AdminController {
         if (userValidator.validateRegistration(username, password, confirmPassword)) {
             // Creates user with information provided
             UserInfo user = new UserInfo(username, password, level);
-            
+
             userDAO.addUser(user);
             new MessageDialogue(mainController.getMainFrame().getParentFrame(), "User added", "Success", 1);
         } else {
@@ -64,7 +64,7 @@ public class AdminController {
 
         // Takes the username of the active user
         String currentUser = mainController.getCurrentUser().getUsername();
-        
+
         // Checks if the user tries to update their own level
         if (targetUser.getUsername().equals(currentUser) && !targetUser.getLevel().equals(level)) {
             new MessageDialogue(mainController.getMainFrame().getParentFrame(),

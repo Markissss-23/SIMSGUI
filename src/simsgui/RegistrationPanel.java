@@ -62,8 +62,8 @@ public class RegistrationPanel extends JPanel {
 
         JButton registerButton = new JButton("Register");
         registerButton.addActionListener((ActionEvent e) -> {
-            System.out.println("Entered password: " + new String(passwordField.getPassword()));
-            System.out.println("Entered username: " + usernameField.getText());
+            //System.out.println("Entered password: " + new String(passwordField.getPassword()));
+            //System.out.println("Entered username: " + usernameField.getText());
 
             mainController.getRegistrationController().handleRegistration(
                     usernameField.getText(),

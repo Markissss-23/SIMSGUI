@@ -8,12 +8,20 @@ package simsgui;
  *
  * @author marku
  */
+
+/*
+    Taken from assignment 1
+*/
 public class StudentValidator extends Validator<StudentInfo>{
     private final IdValidator idValidator;
     private final GradeValidator gradeValidator;
     private final NameValidator nameValidator;
     private final DegreeValidator degreeValidator;
     
+    /* 
+        Identical to Assignment 1 studentValidator. 
+        With the key difference is that it is taking in a studentDAO for idValidator
+    */
     public StudentValidator(StudentDAO dao) {
         this.idValidator = new IdValidator(dao);
         this.gradeValidator = new GradeValidator();
@@ -29,6 +37,8 @@ public class StudentValidator extends Validator<StudentInfo>{
                 & gradeValidator.validate(student.getGrade());
     }
     
+    // Key change here. Appends an error based on if any validation failed
+    // small funny comment, I forgot to use this later on :-)
     public String getValidationErrors(StudentInfo student) {
         StringBuilder errors = new StringBuilder();
 

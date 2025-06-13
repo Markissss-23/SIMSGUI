@@ -27,26 +27,28 @@ public class StudentManagerController {
     public void addStudent(int id, String name, String degree, String grade) {
         // Creates new student with information provided
         StudentInfo student = new StudentInfo(id, name, degree, grade);
-        
+
         // Checks if the student information is valid
         if (studentValidator.validate(student)) {
-            
+
             studentDAO.addStudent(student);
             new MessageDialogue(mainController.getMainFrame().getParentFrame(), "Student added", "Success", 1);
         } else {
-            new MessageDialogue(mainController.getMainFrame().getParentFrame(), "Invalid Data", "Failed", 0);
+            String errors = studentValidator.getValidationErrors(student);
+            new MessageDialogue(mainController.getMainFrame().getParentFrame(), errors, "Failed", 0);
         }
     }
 
     public void updateStudent(int id, String name, String degree, String grade) {
         // Creates student information of the student to be updated
         StudentInfo student = new StudentInfo(id, name, degree, grade);
-        
+
         if (!studentValidator.validate(student)) {
             studentDAO.updateStudent(student);
             new MessageDialogue(mainController.getMainFrame().getParentFrame(), "Student updated", "Success", 1);
         } else {
-            new MessageDialogue(mainController.getMainFrame().getParentFrame(), "Invalid Data", "Failed", 0);
+            String errors = studentValidator.getValidationErrors(student);
+            new MessageDialogue(mainController.getMainFrame().getParentFrame(), errors, "Failed", 0);
         }
     }
 
@@ -62,7 +64,7 @@ public class StudentManagerController {
     public List<StudentInfo> searchStudents(String query) {
         return studentDAO.searchStudent(query);
     }
-    
+
     public List<StudentInfo> getStudents() {
         return studentDAO.getStudents();
     }

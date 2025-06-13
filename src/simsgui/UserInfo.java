@@ -8,6 +8,10 @@ package simsgui;
  *
  * @author marku
  */
+
+/* 
+    More or less identical to StudentInfo 
+*/
 public class UserInfo {
     private String username;
     private String password;

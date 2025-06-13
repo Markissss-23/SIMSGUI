@@ -8,6 +8,13 @@ package simsgui;
  *
  * @author marku
  */
+
+/*
+    Taken from assignment 1
+    Slightly different as this time its taking a StudentDAO input, 
+    entirely because it checks if the id exists within the database    
+*/
+
 public class IdValidator extends Validator<Integer> {
 
     private final StudentDAO dao;
@@ -18,7 +25,7 @@ public class IdValidator extends Validator<Integer> {
 
     @Override
     public boolean validate(Integer id) {
-        if (id == null) return false;
+        if (id == null) return false; 
         if (id < 10000000 || id > 99999999) { // Must be exactly 8 digits
             return false;
         }

@@ -5,14 +5,16 @@
 package simsgui;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.*;
 
 /**
  *
  * @author marku
+ */
+
+/* 
+A lot of the logic and methods here are very similar to StudentDAO, but configured to a user context
+
  */
 public class UserDAO {
 
@@ -22,11 +24,13 @@ public class UserDAO {
         this.conn = DBHandler.getInstance().getConnection();
     }
 
+    // Function to create a default admin user. Cannot be modified externally
     public void createDefaultAdmin() {
         String defaultUsername = "admin";
         String defaultPassword = "admin123";
         String defaultLevel = "admin";
 
+        // Checks if admin already exists
         if (!userExists(defaultUsername)) {
             UserInfo admin = new UserInfo(defaultUsername, defaultPassword, defaultLevel);
             addUser(admin);
@@ -43,15 +47,17 @@ public class UserDAO {
             pstmt.setString(3, user.getLevel());
             pstmt.executeUpdate();
         } catch (SQLException ex) {
-            throw new RuntimeException("failed to add user:", ex);
+            throw new RuntimeException("Failed to add user:", ex);
         }
     }
 
     public UserInfo getUserByUsername(String username) {
         String sql = "SELECT * FROM Users WHERE username = ?";
+
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
+
             if (rs.next()) {
                 return new UserInfo(
                         rs.getString("username"),
@@ -59,7 +65,8 @@ public class UserDAO {
                         rs.getString("level")
                 );
             }
-            return null;
+
+            return null; // just to return something
         } catch (SQLException ex) {
             throw new RuntimeException("Failed to retrieve user", ex);
         }
@@ -67,21 +74,19 @@ public class UserDAO {
 
     public boolean userExists(String username) {
         String sql = "SELECT COUNT(*) FROM Users WHERE username = ?";
+
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
-            rs.next();
-            return rs.getInt(1) > 0;
+
+            if (rs.next()) {
+                int count = rs.getInt(1);
+                return count > 0;
+            } else {
+                return false; // shouldn't ever pass
+            }
         } catch (SQLException ex) {
             throw new RuntimeException("failed to check user existence", ex);
-        }
-    }
-
-    // Mostly for testing
-    public void deleteAllUsers() throws SQLException {
-        String sql = "DELETE FROM Users";
-        try (Statement stmt = conn.createStatement()) {
-            stmt.executeUpdate(sql);
         }
     }
 
@@ -89,7 +94,9 @@ public class UserDAO {
         List<UserInfo> users = new ArrayList<>();
         String sql = "SELECT * FROM Users";
 
-        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Statement stmt = conn.createStatement()) {
+            ResultSet rs = stmt.executeQuery(sql);
+            
             while (rs.next()) {
                 users.add(new UserInfo(
                         rs.getString("username"),
@@ -97,6 +104,7 @@ public class UserDAO {
                         rs.getString("level")
                 ));
             }
+            
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
@@ -127,10 +135,11 @@ public class UserDAO {
         }
     }
 
-    public boolean UsernameUniqueCheck(String username, String oldUsername) {
-        if (username.equals(oldUsername)) {
-            return true;
+    // Mostly for testing
+    public void deleteAllUsers() throws SQLException {
+        String sql = "DELETE FROM Users";
+        try (Statement stmt = conn.createStatement()) {
+            stmt.executeUpdate(sql);
         }
-        return !userExists(username);
     }
 }
