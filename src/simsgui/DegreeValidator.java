@@ -8,6 +8,12 @@ package simsgui;
  *
  * @author marku
  */
+
+/*
+    Taken from assignment 1
+    Only one part is genned with AI as an improvement on the design
+    Making it so that the degree cannot contain characters that arent letters or spaces
+*/
 public class DegreeValidator extends Validator<String>{
     @Override
     public boolean validate(String degree) {
@@ -22,7 +28,7 @@ public class DegreeValidator extends Validator<String>{
         
         // Genned with AI 
         if (!degree.matches("^[a-zA-Z ]+$")) {
-            System.err.println("Name can only contain letters and spaces");
+            System.err.println("Degree can only contain letters and spaces.");
             return false;
         }
         

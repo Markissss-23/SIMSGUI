@@ -10,12 +10,17 @@ import javax.swing.*;
  *
  * @author marku
  */
+
+
+/*
+    RUN THIS CLASS OR THE PROJECT
+*/
 public class Main {
     public static void main(String[] args) {
         DBHandler.getInstance();
-        
+                
         SwingUtilities.invokeLater(() -> {
-            JFrame parentFrame = new JFrame("SIMS TESTING");
+            JFrame parentFrame = new JFrame("SIMS");
             parentFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             parentFrame.setSize(1000,700);
             

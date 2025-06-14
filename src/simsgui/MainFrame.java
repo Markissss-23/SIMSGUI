@@ -10,6 +10,7 @@ import javax.swing.*;
  *
  * @author marku
  */
+
 public class MainFrame extends JFrame {
     JPanel currentPanel;
     JFrame parentFrame;
@@ -22,8 +23,12 @@ public class MainFrame extends JFrame {
     
     public void switchPanel(JPanel panel) {
         currentPanel = panel;
+        // Removes current content
         getContentPane().removeAll();
+        
         add(currentPanel, BorderLayout.CENTER);
+        
+        
         revalidate();
         repaint();
     }

@@ -5,8 +5,7 @@
 package simsgui;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -21,11 +20,17 @@ public class StudentDAO {
     }
 
     // Partially genned with AI particularly the ResultSet
-    public List<StudentInfo> getStudents() {
+    public List<StudentInfo> getStudents() {        
         List<StudentInfo> students = new ArrayList<>();
         String sql = "SELECT * FROM Students";
-        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        
+        // Retrieves the result of the sql statement in rs
+        try (Statement stmt = conn.createStatement()) {
+            
+            ResultSet rs = stmt.executeQuery(sql);
+            // loops through each result in the resultset
             while (rs.next()) {
+                // retrieves the student information 
                 students.add(new StudentInfo(
                         rs.getInt("id"),
                         rs.getString("name"),
@@ -36,13 +41,15 @@ public class StudentDAO {
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
+        
         return students;
     }
 
     public void addStudent(StudentInfo student) {
+        
         String sql = "INSERT INTO Students (id, name, degree, grade) VALUES (?, ?, ?, ?)";
 
-        // PreparedStatement is better for repeated Queries
+        // PreparedStatement is better for repeated Queries     
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, student.getId());
             pstmt.setString(2, student.getName());
@@ -79,16 +86,16 @@ public class StudentDAO {
         }
     }
 
-    public List<StudentInfo> searchStudent(String query) {
+    public List<StudentInfo> searchStudent(String query) { 
         List<StudentInfo> results = new ArrayList<>();
         String sql = "SELECT * FROM Students WHERE id = ? OR LOWER(name) LIKE LOWER(?)";
 
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            try {
-                int id = Integer.parseInt(query);
+            try { // Searches By ID
+                int id = Integer.parseInt(query); 
                 pstmt.setInt(1, id);
-                pstmt.setString(2, "%" + query + "%");
-            } catch (NumberFormatException e) {
+                pstmt.setString(2, "%" + query + "%"); // Technically also searches by name
+            } catch (NumberFormatException e) { // Searches by name if ID fails to parse
                 pstmt.setNull(1, Types.INTEGER); // Ignores ID 
                 pstmt.setString(2, "%" + query + "%");
             }
@@ -116,17 +123,18 @@ public class StudentDAO {
         try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
+            
             if (rs.next()) {
                 exists = rs.getInt(1) > 0;
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
         }
-        return exists; // WILL NEVER BE CALLED
+        return exists; 
     }    
     
     
-    // Mostly for testing
+    // For testing, isn't used outside of it
     public void deleteAllStudents() throws SQLException {
         String sql = "DELETE FROM Students";
         try (Statement stmt = conn.createStatement()){

@@ -14,8 +14,8 @@ import javax.swing.*;
 
 // 
 public class MessageDialogue extends JDialog {
+    
     public MessageDialogue(JFrame parent, String message, String title, int messageType) {
-        super(parent, title, true);
         setLayout(new BorderLayout());
         createMessage(message, messageType);
     }
@@ -31,7 +31,7 @@ public class MessageDialogue extends JDialog {
         JButton button = new JButton("OK");
         button.addActionListener(e -> dispose());
         add(button, BorderLayout.SOUTH);
-        
+               
         switch (messageType) {
             case 0 -> // Error type
                 messageLabel.setForeground(Color.red);
@@ -41,7 +41,6 @@ public class MessageDialogue extends JDialog {
                 messageLabel.setForeground(Color.orange);
         }
         
-        pack();
         setSize(500, 200);
         setResizable(false);
         setVisible(true);

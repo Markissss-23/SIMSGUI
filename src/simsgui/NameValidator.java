@@ -8,6 +8,13 @@ package simsgui;
  *
  * @author marku
  */
+
+/*
+    Taken from assignment 1
+    Only one part is genned with AI as an improvement on the design
+    Making it so that the name cannot contain characters that arent letters or spaces
+*/
+
 public class NameValidator extends Validator<String>{
     @Override
     public boolean validate(String name) {

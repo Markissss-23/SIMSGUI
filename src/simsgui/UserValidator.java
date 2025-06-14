@@ -13,7 +13,6 @@ package simsgui;
 public class UserValidator {
     private UserDAO userDAO;
 
-    // Constructor with dependency injection
     public UserValidator(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
@@ -36,7 +35,8 @@ public class UserValidator {
             user.getPassword().equals(password) 
         );
     }
-    
+
+    // Human made, used for updating a user.
     public boolean validateUpdate(String username, String newPassword, String confirmPassword, String newLevel) {
         if (userDAO.getUserByUsername(username) == null) {
             return false; 
@@ -89,17 +89,23 @@ public class UserValidator {
         return errors.toString().trim();
     }
     
+    // error messages for updates, human made. 
     public String getUpdateErrors(String username, String newPassword, String confirmPassword) {
         StringBuilder errors = new StringBuilder();
         
+        // Checks if user exists
         if (userDAO.getUserByUsername(username) == null) {
             errors.append("User does not exist.\n");
         }
         
+        // Checks if new password is not empty
         if (!newPassword.isEmpty()) {
+            // Checks if password is valid
             if (!isValidPassword(newPassword)) {
                 errors.append("Password must be atleast 8 characters with letters and numbers.\n");
             }
+            
+            // Checks if password is the same as the confirm password input
             if (!newPassword.equals(confirmPassword)) {
                 errors.append("Passwords do not match.\n");
             }

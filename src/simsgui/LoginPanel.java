@@ -64,8 +64,8 @@ public class LoginPanel extends JPanel {
         // Login Button
         JButton loginButton = new JButton("Login");
         loginButton.addActionListener((ActionEvent e) -> {
-            System.out.println("Entered password: " + new String(passwordField.getPassword()));
-            System.out.println("Entered username: " + usernameField.getText());
+            //System.out.println("Entered password: " + new String(passwordField.getPassword()));
+            //System.out.println("Entered username: " + usernameField.getText());
 
             loginController.handleLogin(
                     usernameField.getText(),

@@ -9,6 +9,8 @@ package simsgui;
  * @author marku
  * @param <T>
  */
+
+// Borrowed from Assignment 1, superclass for validation (for students) 
 public abstract class Validator<T> {
     public abstract boolean validate(T input);
 }

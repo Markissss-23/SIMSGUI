@@ -4,7 +4,6 @@
  */
 package simsgui;
 
-import java.util.Objects;
 
 /**
  *
@@ -13,7 +12,8 @@ import java.util.Objects;
 
 /* 
     Contains a student's information, including ID, name, degree, and grade.
-    Copied from Assignment 1
+    Taken from Assignment 1
+    initially had some AI modifications but removed as I found them to be redundant
 */
 public class StudentInfo {
     private int id;
@@ -63,41 +63,5 @@ public class StudentInfo {
     @Override
     public String toString() {
         return "ID: " + id + ", Name: " + name + ", Degree: " + degree + ", Grade: " + grade;
-    }   
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 29 * hash + this.id;
-        hash = 29 * hash + Objects.hashCode(this.name);
-        hash = 29 * hash + Objects.hashCode(this.degree);
-        hash = 29 * hash + Objects.hashCode(this.grade);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final StudentInfo other = (StudentInfo) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        if (!Objects.equals(this.degree, other.degree)) {
-            return false;
-        }
-        return Objects.equals(this.grade, other.grade);
-    }
-    
-    
+    }           
 }
