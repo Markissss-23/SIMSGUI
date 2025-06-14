@@ -15,9 +15,11 @@ import javax.swing.*;
 public class RegistrationPanel extends JPanel {
 
     private MainController mainController;
+    private RegistrationController registrationController;
 
     public RegistrationPanel(MainController mainController) {
         this.mainController = mainController;
+        this.registrationController = mainController.getRegistrationController();
         setLayout(new BorderLayout());
         initUI();
     }
@@ -65,7 +67,7 @@ public class RegistrationPanel extends JPanel {
             //System.out.println("Entered password: " + new String(passwordField.getPassword()));
             //System.out.println("Entered username: " + usernameField.getText());
 
-            mainController.getRegistrationController().handleRegistration(
+            registrationController.handleRegistration(
                     usernameField.getText(),
                     new String(passwordField.getPassword()),
                     new String(confirmPasswordField.getPassword()));
@@ -79,5 +81,4 @@ public class RegistrationPanel extends JPanel {
         add(formContainer, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
-
 }
