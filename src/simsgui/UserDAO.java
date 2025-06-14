@@ -47,7 +47,7 @@ public class UserDAO {
             pstmt.setString(3, user.getLevel());
             pstmt.executeUpdate();
         } catch (SQLException ex) {
-            throw new RuntimeException("Failed to add user:", ex);
+            System.err.println(ex.getMessage());
         }
     }
 
@@ -66,10 +66,10 @@ public class UserDAO {
                 );
             }
 
-            return null; // just to return something
         } catch (SQLException ex) {
-            throw new RuntimeException("Failed to retrieve user", ex);
+            System.err.println(ex.getMessage());
         }
+        return null;
     }
 
     public boolean userExists(String username) {
@@ -86,8 +86,9 @@ public class UserDAO {
                 return false; // shouldn't ever pass
             }
         } catch (SQLException ex) {
-            throw new RuntimeException("failed to check user existence", ex);
+            System.err.println(ex.getMessage());
         }
+        return false;
     }
 
     public List<UserInfo> getAllUsers() {
@@ -96,7 +97,7 @@ public class UserDAO {
 
         try (Statement stmt = conn.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
-            
+
             while (rs.next()) {
                 users.add(new UserInfo(
                         rs.getString("username"),
@@ -104,7 +105,7 @@ public class UserDAO {
                         rs.getString("level")
                 ));
             }
-            
+
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
         }
