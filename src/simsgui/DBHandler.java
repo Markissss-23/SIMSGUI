@@ -22,18 +22,16 @@ public final class DBHandler {
     private Connection conn;
 
     private DBHandler() {
-        establishConnection();
-        createTablesIfNonExistent();
-    }
-
-    /* static {
         try {
             Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            establishConnection();
+            createTablesIfNonExistent();
+
         } catch (ClassNotFoundException e) {
             System.err.println("Derby driver not found!");
         }
-    }*/
-    
+
+    }
 
     public static DBHandler getInstance() {
         if (instance == null) {
@@ -56,7 +54,7 @@ public final class DBHandler {
                 System.out.println("Connected to " + URL + " successfully...");
             } catch (SQLException e) {
                 System.err.println(e.getMessage());
-            } 
+            }
         }
     }
 
@@ -80,15 +78,14 @@ public final class DBHandler {
                     + "grade VARCHAR(2))";
             stmt.executeUpdate(studentTable);
             System.out.println("Students Table created successfully");
-            
-            
+
             String userTable = "CREATE TABLE Users ("
                     + "username VARCHAR(25) PRIMARY KEY,"
                     + "password VARCHAR(25),"
                     + "level VARCHAR(10))";
             stmt.executeUpdate(userTable);
             System.out.println("Users Table created sucessfully");
-                        
+
         } catch (SQLException e) {
             if (!e.getMessage().contains("already exists")) {
                 System.err.println("Table creation failed: " + e.getMessage());
